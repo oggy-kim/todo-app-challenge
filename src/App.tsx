@@ -1,40 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react';
+import styled from 'styled-components';
+import Footer from './components/Footer';
+import InputForm from './components/InputForm';
+import Menu from './components/Menu';
+import TodoList from './components/TodoList';
 
-interface AppProps {}
+const StyledContainer = styled.div`
+  display: flex;
+  min-height: 100vh;
+  width: 600px;
+  flex-direction: column;
+  align-items: center;
+`;
 
-function App({}: AppProps) {
-  // Create the count state.
-  const [count, setCount] = useState(0);
-  // Create the counter (+1 every second).
-  useEffect(() => {
-    const timer = setTimeout(() => setCount(count + 1), 1000);
-    return () => clearTimeout(timer);
-  }, [count, setCount]);
-  // Return the App component.
+function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <p>
-          Page has been open for <code>{count}</code> seconds.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
-    </div>
+    <StyledContainer>
+      <h2>#todo</h2>
+      <Menu />
+      <InputForm />
+      <TodoList />
+      <Footer />
+    </StyledContainer>
   );
 }
 
