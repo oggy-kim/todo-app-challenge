@@ -2,16 +2,68 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 const StyledDiv = styled.div`
-  flex: 0 0 56px;
+  margin-top: 18px;
+  height: 56px;
+  width: 100%;
+  margin-bottom: 30px;
+`;
+
+const StyledForm = styled.form`
+  display: flex;
+  width: 100%;
+`;
+
+const StyledInput = styled.input`
+  border-radius: 12px;
+  flex-basis: 0;
+  border: 1px solid #bdbdbd;
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 14px;
+`;
+
+const StyledButton = styled.button`
+  background: #2f80ed;
+  margin-left: 25px;
+  box-shadow: 0px 2px 6px rgba(127, 177, 243, 0.4);
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #fff;
+  width: 109px;
+  height: 56px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 function InputForm() {
+  const [inputValue, setInputValue] = React.useState<string>('');
+
+  const handleClick = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setInputValue('');
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = e;
+    inputValue !== e.target.value && setInputValue(e.target.value);
+  };
+
   return (
     <StyledDiv>
-      <form>
-        <input type="text" placeholder="add details" />
-        <button type="submit">Add</button>
-      </form>
+      <StyledForm>
+        <StyledInput
+          type="text"
+          placeholder="add details"
+          onChange={(e) => onChange(e)}
+          value={inputValue}
+        />
+        <StyledButton onClick={(e) => handleClick(e)}>Add</StyledButton>
+      </StyledForm>
     </StyledDiv>
   );
 }

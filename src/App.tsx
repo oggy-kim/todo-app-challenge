@@ -8,16 +8,25 @@ import TodoList from './components/TodoList';
 const StyledContainer = styled.div`
   display: flex;
   min-height: 100vh;
-  width: 600px;
+  width: 608px;
   flex-direction: column;
   align-items: center;
 `;
 
+const StyledH2 = styled.h2`
+  font-size: 36px;
+  margin-bottom: 58px;
+`;
+
 function App() {
+  const [selectedMenu, setSelectedMenu] = React.useState<
+    'All' | 'Active' | 'Completed'
+  >('All');
+
   return (
     <StyledContainer>
-      <h2>#todo</h2>
-      <Menu />
+      <StyledH2>#todo</StyledH2>
+      <Menu selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <InputForm />
       <TodoList />
       <Footer />

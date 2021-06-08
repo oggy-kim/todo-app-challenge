@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 const StyledText = styled.p`
   color: #a9a9a9;
-  flex: 0 0 20px;
+  font-size: 14px;
+  flex: 0 0 24px;
 `;
 
 function Footer() {
