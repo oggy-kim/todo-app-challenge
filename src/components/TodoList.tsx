@@ -9,14 +9,20 @@ const StyledDiv = styled.div`
   width: 100%;
 `;
 
-function TodoList() {
-  return (
-    <StyledDiv>
-      <TodoItem />
-      <TodoItem />
-      <TodoItem />
-    </StyledDiv>
-  );
+interface ITodoListProps {
+  todos: object[];
+}
+
+function TodoList({ todos }: ITodoListProps) {
+  // localStorage.clear();
+
+  const renderItems = (todos: object[]) => {
+    return todos.map(({ id, completed, content }) => {
+      return <TodoItem id={id} completed={completed} content={content} />;
+    });
+  };
+
+  return <StyledDiv>{renderItems(todos)}</StyledDiv>;
 }
 
 export default TodoList;

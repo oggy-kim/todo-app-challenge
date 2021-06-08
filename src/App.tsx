@@ -23,12 +23,28 @@ function App() {
     'All' | 'Active' | 'Completed'
   >('All');
 
+  const [todos, setTodos] = React.useState([]);
+
+  React.useEffect(() => {
+    const existingItems = localStorage.getItem('todos');
+    const todos = existingItems ? JSON.parse(existingItems) : [];
+    setTodos(todos);
+  }, []);
+
+  const onHandleSubmit = (newTodo: TodoType) => {
+    const existingItems = localStorage.getItem('todos');
+    const todos = existingItems ? JSON.parse(existingItems) : [];
+    todos.push(newTodo);
+    setTodos(todos);
+    localStorage.setItem('todos', JSON.stringify(todos));
+  };
+
   return (
     <StyledContainer>
       <StyledH2>#todo</StyledH2>
       <Menu selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
-      <InputForm />
-      <TodoList />
+      <InputForm handleSubmit={onHandleSubmit} />
+      <TodoList todos={todos} />
       <Footer />
     </StyledContainer>
   );

@@ -38,15 +38,25 @@ const StyledButton = styled.button`
   }
 `;
 
-function InputForm() {
+interface IFormProps {
+  handleSubmit: (newTodo: TodoType) => void;
+}
+
+function InputForm({ handleSubmit }: IFormProps) {
   const [inputValue, setInputValue] = React.useState<string>('');
 
   const handleClick = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    const newTodo: TodoType = {
+      id: Date.now(),
+      completed: false,
+      content: inputValue,
+    };
+    handleSubmit(newTodo);
     setInputValue('');
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value },
     } = e;
@@ -59,7 +69,7 @@ function InputForm() {
         <StyledInput
           type="text"
           placeholder="add details"
-          onChange={(e) => onChange(e)}
+          onChange={(e) => handleChange(e)}
           value={inputValue}
         />
         <StyledButton onClick={(e) => handleClick(e)}>Add</StyledButton>

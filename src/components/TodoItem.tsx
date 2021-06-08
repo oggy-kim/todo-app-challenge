@@ -10,13 +10,11 @@ const StyledDiv = styled.div`
   margin-bottom: 10px;
 `;
 
-function TodoItem() {
+function TodoItem({ id, completed, content }: TodoType) {
   return (
     <StyledDiv>
-      <input type="checkbox" />
-      <span style={{ fontSize: '18px', marginRight: 'auto' }}>
-        Do coding challenges
-      </span>
+      <input type="checkbox" checked={completed} />
+      <span style={{ fontSize: '18px', marginRight: 'auto' }}>{content}</span>
       <button>delete</button>
     </StyledDiv>
   );

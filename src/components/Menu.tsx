@@ -40,7 +40,6 @@ function Menu({ selectedMenu, setSelectedMenu }: IMenuProps) {
   console.log(selectedMenu);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    console.log(e.currentTarget.id);
     e.currentTarget.id && setSelectedMenu(e.currentTarget.id);
   };
 
