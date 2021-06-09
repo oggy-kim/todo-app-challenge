@@ -37,8 +37,6 @@ interface IMenuProps {
 const menuItems = ['All', 'Active', 'Completed'];
 
 function Menu({ selectedMenu, setSelectedMenu }: IMenuProps) {
-  console.log(selectedMenu);
-
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.currentTarget.id && setSelectedMenu(e.currentTarget.id);
   };
@@ -46,7 +44,7 @@ function Menu({ selectedMenu, setSelectedMenu }: IMenuProps) {
   const renderMenuItems = (menuItems: string[]) => {
     return menuItems.map((item) => {
       return (
-        <StyledText id={item} onClick={(e) => handleClick(e)}>
+        <StyledText key={item} id={item} onClick={(e) => handleClick(e)}>
           {item}
         </StyledText>
       );
@@ -57,6 +55,7 @@ function Menu({ selectedMenu, setSelectedMenu }: IMenuProps) {
     return menuItems.map((item) => {
       return (
         <SelectedItem
+          key={item}
           style={{ visibility: selectedMenu === item ? 'visible' : 'hidden' }}
         />
       );

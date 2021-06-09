@@ -23,7 +23,7 @@ function App() {
     'All' | 'Active' | 'Completed'
   >('All');
 
-  const [todos, setTodos] = React.useState([]);
+  const [todos, setTodos] = React.useState<TodoType[]>([]);
 
   React.useEffect(() => {
     const existingItems = localStorage.getItem('todos');
@@ -31,12 +31,51 @@ function App() {
     setTodos(todos);
   }, []);
 
+  React.useEffect(() => {
+    renderTodoList();
+  }, [todos]);
+
   const onHandleSubmit = (newTodo: TodoType) => {
-    const existingItems = localStorage.getItem('todos');
-    const todos = existingItems ? JSON.parse(existingItems) : [];
-    todos.push(newTodo);
-    setTodos(todos);
-    localStorage.setItem('todos', JSON.stringify(todos));
+    const changedTodos = todos.concat(newTodo);
+    setTodos(changedTodos);
+    localStorage.setItem('todos', JSON.stringify(changedTodos));
+  };
+
+  const onHandleChange = (id, completed, deleteFlag) => {
+    let changedTodos;
+    if (id === 'all') {
+      changedTodos = todos.filter((todo) => {
+        return todo.completed !== true;
+      });
+      setTodos(changedTodos);
+    } else if (deleteFlag) {
+      changedTodos = todos.filter((todo) => {
+        return todo.id !== id;
+      });
+      setTodos(changedTodos);
+    } else {
+      changedTodos = todos.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, completed: !completed };
+        }
+        return { ...todo };
+      });
+      setTodos(changedTodos);
+    }
+
+    localStorage.setItem('todos', JSON.stringify(changedTodos));
+  };
+
+  const renderTodoList = () => {
+    return (
+      <>
+        <TodoList
+          handleChange={onHandleChange}
+          todos={todos}
+          selectedMenu={selectedMenu}
+        />
+      </>
+    );
   };
 
   return (
@@ -44,7 +83,7 @@ function App() {
       <StyledH2>#todo</StyledH2>
       <Menu selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <InputForm handleSubmit={onHandleSubmit} />
-      <TodoList todos={todos} />
+      {renderTodoList()}
       <Footer />
     </StyledContainer>
   );

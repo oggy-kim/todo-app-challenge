@@ -63,3 +63,6 @@ declare type TodoType = {
   completed: boolean;
   content: string;
 }
+
+declare type selectedMenuType = 
+  'All' | 'Active' | 'Completed';
