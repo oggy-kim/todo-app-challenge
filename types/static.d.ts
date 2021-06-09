@@ -58,7 +58,7 @@ declare module '*.png' {
 
 /* CUSTOM: ADD YOUR OWN HERE */
 
-declare type TodoType = {
+declare type todoType = {
   id: number;
   completed: boolean;
   content: string;

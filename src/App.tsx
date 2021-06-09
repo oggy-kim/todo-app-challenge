@@ -16,43 +16,43 @@ const StyledContainer = styled.div`
 const StyledH2 = styled.h2`
   font-size: 36px;
   margin-bottom: 58px;
+  font-family: Raleway;
 `;
 
 function App() {
-  const [selectedMenu, setSelectedMenu] = React.useState<
-    'All' | 'Active' | 'Completed'
-  >('All');
-
-  const [todos, setTodos] = React.useState<TodoType[]>([]);
+  const [selectedMenu, setSelectedMenu] =
+    React.useState<selectedMenuType>('All');
+  const [todos, setTodos] = React.useState<todoType[]>([]);
 
   React.useEffect(() => {
     const existingItems = localStorage.getItem('todos');
-    const todos = existingItems ? JSON.parse(existingItems) : [];
-    setTodos(todos);
+    setTodos(existingItems ? JSON.parse(existingItems) : []);
   }, []);
 
   React.useEffect(() => {
     renderTodoList();
   }, [todos]);
 
-  const onHandleSubmit = (newTodo: TodoType) => {
+  const onHandleSubmit = (newTodo: todoType) => {
     const changedTodos = todos.concat(newTodo);
     setTodos(changedTodos);
     localStorage.setItem('todos', JSON.stringify(changedTodos));
   };
 
-  const onHandleChange = (id, completed, deleteFlag) => {
+  const onHandleChange = (
+    id: 'all' | number,
+    completed: boolean,
+    deleteFlag: boolean,
+  ) => {
     let changedTodos;
     if (id === 'all') {
       changedTodos = todos.filter((todo) => {
         return todo.completed !== true;
       });
-      setTodos(changedTodos);
     } else if (deleteFlag) {
       changedTodos = todos.filter((todo) => {
         return todo.id !== id;
       });
-      setTodos(changedTodos);
     } else {
       changedTodos = todos.map((todo) => {
         if (todo.id === id) {
@@ -60,21 +60,18 @@ function App() {
         }
         return { ...todo };
       });
-      setTodos(changedTodos);
     }
-
+    setTodos(changedTodos);
     localStorage.setItem('todos', JSON.stringify(changedTodos));
   };
 
   const renderTodoList = () => {
     return (
-      <>
-        <TodoList
-          handleChange={onHandleChange}
-          todos={todos}
-          selectedMenu={selectedMenu}
-        />
-      </>
+      <TodoList
+        handleChange={onHandleChange}
+        todos={todos}
+        selectedMenu={selectedMenu}
+      />
     );
   };
 

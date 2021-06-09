@@ -30,18 +30,21 @@ const StyledText = styled.div`
 `;
 
 interface IMenuProps {
-  selectedMenu: 'All' | 'Active' | 'Completed';
-  setSelectedMenu: any;
+  selectedMenu: selectedMenuType;
+  setSelectedMenu: React.Dispatch<
+    React.SetStateAction<'All' | 'Active' | 'Completed'>
+  >;
 }
 
-const menuItems = ['All', 'Active', 'Completed'];
+const menuItems: selectedMenuType[] = ['All', 'Active', 'Completed'];
 
 function Menu({ selectedMenu, setSelectedMenu }: IMenuProps) {
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.currentTarget.id && setSelectedMenu(e.currentTarget.id);
+    const selected: selectedMenuType = e.currentTarget.id as selectedMenuType;
+    setSelectedMenu(selected);
   };
 
-  const renderMenuItems = (menuItems: string[]) => {
+  const renderMenuItems = (menuItems: selectedMenuType[]) => {
     return menuItems.map((item) => {
       return (
         <StyledText key={item} id={item} onClick={(e) => handleClick(e)}>
@@ -51,7 +54,7 @@ function Menu({ selectedMenu, setSelectedMenu }: IMenuProps) {
     });
   };
 
-  const highlightedItem = (menuItems: string[]) => {
+  const highlightedItem = (menuItems: selectedMenuType[]) => {
     return menuItems.map((item) => {
       return (
         <SelectedItem

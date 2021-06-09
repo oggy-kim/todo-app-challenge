@@ -31,29 +31,36 @@ const StyledButton = styled.div`
 `;
 
 interface ITodoListProps {
-  todos: object[];
+  todos: todoType[];
   selectedMenu: selectedMenuType;
+  handleChange: (
+    id: 'all' | number,
+    completed: boolean,
+    deleteFlag: boolean,
+  ) => void;
 }
 
-function TodoList({ todos, selectedMenu, handleChange }) {
-  // localStorage.clear();
-
+function TodoList({ todos, selectedMenu, handleChange }: ITodoListProps) {
   React.useEffect(() => {
     renderItems(todos, selectedMenu);
   }, [todos]);
 
-  const handleItem = (id, completed, deleteFlag = false) => {
+  const onHandleItemChange: ITodoListProps['handleChange'] = (
+    id,
+    completed,
+    deleteFlag = false,
+  ) => {
     handleChange(id, completed, deleteFlag);
   };
 
-  const renderItems = (todos: object[], selectedMenu: selectedMenuType) => {
+  const renderItems = (todos: todoType[], selectedMenu: selectedMenuType) => {
     switch (selectedMenu) {
       case 'All':
         return todos.map(({ id, completed, content }) => {
           return (
             <TodoItem
               key={id}
-              handleItem={handleItem}
+              handleChange={onHandleItemChange}
               id={id}
               completed={completed}
               content={content}
@@ -67,7 +74,7 @@ function TodoList({ todos, selectedMenu, handleChange }) {
             return (
               <TodoItem
                 key={id}
-                handleItem={handleItem}
+                handleChange={onHandleItemChange}
                 id={id}
                 completed={completed}
                 content={content}
@@ -81,7 +88,7 @@ function TodoList({ todos, selectedMenu, handleChange }) {
             return (
               <TodoItem
                 key={id}
-                handleItem={handleItem}
+                handleChange={onHandleItemChange}
                 id={id}
                 completed={completed}
                 content={content}
@@ -94,16 +101,15 @@ function TodoList({ todos, selectedMenu, handleChange }) {
 
   const DeleteButton = () => {
     return (
-      <StyledButton onClick={handleDelete}>
+      <StyledButton
+        onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+          onHandleItemChange('all', true, true)
+        }
+      >
         <DeleteOutlineIcon style={{ fontSize: 'small' }} />
-        <span style={{ marginLeft: '5px' }}>delete all</span>
+        <span style={{ marginLeft: '3px' }}>delete all</span>
       </StyledButton>
     );
-  };
-
-  const handleDelete = () => {
-    console.log('여기?');
-    handleChange('all', true, true);
   };
 
   return (

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const StyledDiv = styled.div`
   margin-top: 18px;
@@ -33,13 +33,19 @@ const StyledButton = styled.button`
   width: 109px;
   height: 56px;
 
+  ${(props) =>
+    props.disabled &&
+    css`
+      background-color: gray;
+      pointer-events: none;
+    `}
   &:hover {
     cursor: pointer;
   }
 `;
 
 interface IFormProps {
-  handleSubmit: (newTodo: TodoType) => void;
+  handleSubmit: (newTodo: todoType) => void;
 }
 
 function InputForm({ handleSubmit }: IFormProps) {
@@ -47,7 +53,7 @@ function InputForm({ handleSubmit }: IFormProps) {
 
   const handleClick = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const newTodo: TodoType = {
+    const newTodo: todoType = {
       id: Date.now(),
       completed: false,
       content: inputValue,
@@ -60,7 +66,7 @@ function InputForm({ handleSubmit }: IFormProps) {
     const {
       target: { value },
     } = e;
-    inputValue !== e.target.value && setInputValue(e.target.value);
+    setInputValue(e.target.value);
   };
 
   return (
@@ -72,7 +78,12 @@ function InputForm({ handleSubmit }: IFormProps) {
           onChange={(e) => handleChange(e)}
           value={inputValue}
         />
-        <StyledButton onClick={(e) => handleClick(e)}>Add</StyledButton>
+        <StyledButton
+          onClick={(e) => handleClick(e)}
+          disabled={!inputValue.length}
+        >
+          Add
+        </StyledButton>
       </StyledForm>
     </StyledDiv>
   );
